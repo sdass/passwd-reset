@@ -1,4 +1,4 @@
-insert into prodcustomer values(1, 'sdass@demo.com', 'ab12_password', 'Subra', 'Dass', true, 
-	'2017-07-12 09:00:00', 'XTOKEN-1234', '2017-06-01 17:00:00');
+insert into prodcustomer (user_id, created_on, email, password, firstname, lastname, enabled, reset_token, reset_token_expire) values(4, 
+'2017-05-25 17:00:00', 'sdass@demo.com', 'ab12_password', 'Subra', 'Dass', true, 'XTOKEN-1234', '2017-08-01 17:00:00' );
 
 	
