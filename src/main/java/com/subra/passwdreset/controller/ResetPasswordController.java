@@ -24,6 +24,16 @@ public class ResetPasswordController {
 	@Autowired
 	CustomerService customerService;
 	
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	ModelAndView initial(){
+		
+		return new ModelAndView("first", "message", "My first message");
+		
+		//return new ModelAndView("first");		
+		
+	}
+	
 	@RequestMapping(value="/forgot", method=RequestMethod.GET)
 	ModelAndView displayForgotPasswordPage(){
 		return new ModelAndView("forgotPassword");		
@@ -77,12 +87,17 @@ public class ResetPasswordController {
 			existC.setPassword(password);
 			existC.setResetToken(null);
 			customerService.saveCustomer(existC);
+			redirectAttribute.addFlashAttribute("success", "Passwd reset successful. Login now");
+			modelview.setViewName("redirect:login");
+			return modelview;			
+		}else{
+			modelview.addObject("error", "Invalid password reset link.");
+			modelview.setViewName("resetPassword");
 		}
 		//plain password for now to test. later use bcrypt
+				
 		
-		
-		
-		return null;
+		return modelview;
 	}
 	
 }
