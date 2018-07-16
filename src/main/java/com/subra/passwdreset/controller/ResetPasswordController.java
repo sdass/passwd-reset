@@ -78,7 +78,12 @@ public class ResetPasswordController {
 			Customer c = customerService.saveCustomer(customer);
 			if(c != null){
 				//send url
-				String thisUrl = httpRequest.getScheme()+ "://" + httpRequest.getServerName() +httpRequest.getContextPath();
+				// String thisUrl = httpRequest.getScheme()+ "://" + httpRequest.getServerName() +httpRequest.getContextPath();
+				String thisUrl = httpRequest.getScheme()+ "://" + httpRequest.getServerName();
+				if(httpRequest.getServerPort() != 80){
+					thisUrl = thisUrl+ ':' + httpRequest.getServerPort();
+				}
+				thisUrl = thisUrl + httpRequest.getContextPath();
 				String tokenUrl= thisUrl + "/reset?token="+ c.getResetToken();
 				modelview.addObject("success", "password reset link sent to your email");
 				System.out.println("tokenUrl=" + tokenUrl + "< model.success=" + modelview.getModel().get("success"));
@@ -158,7 +163,8 @@ public class ResetPasswordController {
 			Customer existC = optCustomer.get();//.setPassword(password);
 			existC.setPassword(password);
 			existC.setResetToken(null);
-			customerService.saveCustomer(existC);
+			Customer savedEntity = customerService.saveCustomer(existC);
+			System.out.println("savedEntity=" + savedEntity);
 			redirectAttribute.addFlashAttribute("success", "Passwd reset successful. Login now");
 			modelview.setViewName("redirect:login");
 			return modelview;			

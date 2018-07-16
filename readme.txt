@@ -5,15 +5,15 @@ step 1: C:\Temp\Pair1>curl -X POST "http://localhost:8086/passwd-reset/forgotres
 
 works: result
 in processAndSendForgotPasswordURLrest2()...
-tokenUrl=http://localhost/passwd-reset/reset?token=05e9df35-7127-4e22-89bc-
-
-c37abb0422e7< model.success=password reset link sent to your email
+tokenUrl=http://localhost/passwd-reset/reset?token=09eb5d1e-6bd9-427b-a3a0-2250da0adb9c< model.success=password reset link sent to your email
 2018-07-13 16:28:04.726
 
-step 2: curl "http://localhost/passwd-reset/reset?token=05e9df35-7127-4e22-89bc-
+step 2: curl "http://localhost:8086/passwd-reset/reset?token=09eb5d1e-6bd9-427b-a3a0-2250da0adb9c"
 
-c37abb0422e7"
-change port to 8086
+C:\Users\sdass\STSworkspace\passwd-reset>curl -X POST "http://localhost:8086/passwd-reset/resetRest2?token=09eb5d1e-6bd9-427b-a3a0-2250da0adb9c&password=newKPasswd45
 
-correct so far
+inputs: token=09eb5d1e-6bd9-427b-a3a0-2250da0adb9c password=newKPasswd45
+savedEntity=Customer [userId=4, email=sdass@demo.com, password=newKPasswd45, firstname=Subra, lastname=Dass, enabled=true, createdOn=2017-05-25 17:00:00.0, resetToken=null, resetTokenExpire=2017-08-01 17:00:00.0]
+
+password changed.
 ------
