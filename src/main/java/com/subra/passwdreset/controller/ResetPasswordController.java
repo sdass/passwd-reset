@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +27,8 @@ public class ResetPasswordController {
 	@Autowired
 	CustomerService customerService;
 	
+	@Autowired
+	PasswordEncoder bCryptPasswordEncoder;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	ModelAndView initial(){
@@ -34,6 +38,31 @@ public class ResetPasswordController {
 		//return new ModelAndView("first");		
 		
 	}
+	
+	
+	//------------stub for bcrypt tries below------------------------
+	@RequestMapping(value="/passwordcrpto", method=RequestMethod.GET)
+	@ResponseBody
+	String cryptoPasswordhashbcrypt(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
+		String password = reqParams.get("password");
+				
+		String passcrypt = bCryptPasswordEncoder.encode(password);					
+		System.out.println("password=" + password + " :passcrypt=" + passcrypt);
+		return passcrypt;
+	}
+	
+	@RequestMapping(value="/doesmatch", method=RequestMethod.GET)
+	@ResponseBody
+	String doesPasswordmatch(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
+		String password = reqParams.get("password");
+		String crypto = reqParams.get("cryptos");
+		
+		Boolean match = bCryptPasswordEncoder.matches(password, crypto);					
+		System.out.println("match=" + match);
+		return match.toString();
+	}
+		
+	//--------------stub for bcrypt tries above ---------------------
 	
 	@RequestMapping(value="/forgot", method=RequestMethod.GET)
 	ModelAndView displayForgotPasswordPage(){

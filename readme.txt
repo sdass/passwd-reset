@@ -1,5 +1,7 @@
 https://www.codebyamir.com/blog/forgot-password-feature-with-java-and-spring-boot
 
+h2 console login: http://localhost:8086/passwd-reset/h2-console
+
 To passwd-reset
 step 1: C:\Temp\Pair1>curl -X POST "http://localhost:8086/passwd-reset/forgotrest2?email=sdass@demo.com"
 
