@@ -7,8 +7,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +29,12 @@ public class ResetPasswordController {
 	CustomerService customerService;
 	
 	@Autowired
-	PasswordEncoder bCryptPasswordEncoder;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	ShaPasswordEncoder shaPasswordEncoder;
+	
+	final static String salt = "secretDRF9";//change and secure
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	ModelAndView initial(){
@@ -39,15 +45,17 @@ public class ResetPasswordController {
 		
 	}
 	
-	
+	 
 	//------------stub for bcrypt tries below------------------------
 	@RequestMapping(value="/passwordcrpto", method=RequestMethod.GET)
 	@ResponseBody
 	String cryptoPasswordhashbcrypt(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
 		String password = reqParams.get("password");
-				
-		String passcrypt = bCryptPasswordEncoder.encode(password);					
-		System.out.println("password=" + password + " :passcrypt=" + passcrypt);
+
+		String passsha512 = shaPasswordEncoder.encodePassword(password, salt);
+		//String passcrypt = bCryptPasswordEncoder.encode(password);					
+		String passcrypt = bCryptPasswordEncoder.encode(passsha512);
+		System.out.println("password=" + password + ": passsha512=" + passsha512 + " :passcrypt=" + passcrypt);
 		return passcrypt;
 	}
 	
@@ -55,9 +63,13 @@ public class ResetPasswordController {
 	@ResponseBody
 	String doesPasswordmatch(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
 		String password = reqParams.get("password");
-		String crypto = reqParams.get("cryptos");
+		String passsha512_input = shaPasswordEncoder.encodePassword(password, salt);
 		
-		Boolean match = bCryptPasswordEncoder.matches(password, crypto);					
+		String crypto_asif_from_db = reqParams.get("cryptos");
+		
+		
+		
+		Boolean match = bCryptPasswordEncoder.matches(passsha512_input, passsha512_input);					
 		System.out.println("match=" + match);
 		return match.toString();
 	}

@@ -3,8 +3,9 @@ package com.subra.passwdreset;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @SpringBootApplication
 public class PasswdResetApplication {
@@ -14,7 +15,13 @@ public class PasswdResetApplication {
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public BCryptPasswordEncoder bCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	ShaPasswordEncoder shaPasswordEncoder(){
+		//return new ShaPasswordEncoder(512);
+		return new ShaPasswordEncoder(256);
 	}
 }

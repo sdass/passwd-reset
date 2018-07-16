@@ -55,11 +55,31 @@
 		</dependency>
 
 
+	<!-- for BCrypt -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-crypto</artifactId>
 		    <version>3.1.0.RELEASE</version>
 		</dependency>
+		
+		<!-- for MessageDigest SHA-512 -->
+ 		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>3.0.3.RELEASE</version>
+		</dependency> 
+ 
+ 
+		<!-- SHA-256 -->
+<!-- 		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.4</version>
+		</dependency>
+  -->
+
+		
 		
 		<dependency>
 			<groupId>com.h2database</groupId>

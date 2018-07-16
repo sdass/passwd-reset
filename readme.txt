@@ -19,3 +19,4 @@ savedEntity=Customer [userId=4, email=sdass@demo.com, password=newKPasswd45, fir
 
 password changed.
 ------
+password securing: dropbox algo. SHA-512 next bcrypt. https://blogs.dropbox.com/tech/2016/09/how-dropbox-securely-stores-your-passwords/
