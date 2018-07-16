@@ -64,20 +64,20 @@
 		
 		<!-- for MessageDigest SHA-512 -->
  		
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
 		    <version>3.0.3.RELEASE</version>
 		</dependency> 
- 
+  -->
  
 		<!-- SHA-256 -->
-<!-- 		<dependency>
+ 		<dependency>
 		    <groupId>commons-codec</groupId>
 		    <artifactId>commons-codec</artifactId>
 		    <version>1.4</version>
 		</dependency>
-  -->
+  
 
 		
 		

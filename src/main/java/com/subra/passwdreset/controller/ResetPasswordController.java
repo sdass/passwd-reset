@@ -7,8 +7,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.subra.passwdreset.CustomerService;
 import com.subra.passwdreset.model.Customer;
+import static org.apache.commons.codec.digest.DigestUtils.sha256;
+//import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+
 
 @Controller
 public class ResetPasswordController {
@@ -30,12 +31,7 @@ public class ResetPasswordController {
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	@Autowired
-	ShaPasswordEncoder shaPasswordEncoder;
-	
-	final static String salt = "secretDRF9";//change and secure
-	
+		
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	ModelAndView initial(){
 		
@@ -52,24 +48,23 @@ public class ResetPasswordController {
 	String cryptoPasswordhashbcrypt(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
 		String password = reqParams.get("password");
 
-		String passsha512 = shaPasswordEncoder.encodePassword(password, salt);
-		//String passcrypt = bCryptPasswordEncoder.encode(password);					
-		String passcrypt = bCryptPasswordEncoder.encode(passsha512);
-		System.out.println("password=" + password + ": passsha512=" + passsha512 + " :passcrypt=" + passcrypt);
+		String passwordsha256 = new String(sha256(password));
+							
+		String passcrypt = bCryptPasswordEncoder.encode(passwordsha256);
+		System.out.println("password=" + password + ": passwordsha256=" + passwordsha256 + " :passcrypt=" + passcrypt);
 		return passcrypt;
 	}
 	
 	@RequestMapping(value="/doesmatch", method=RequestMethod.GET)
 	@ResponseBody
 	String doesPasswordmatch(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
-		String password = reqParams.get("password");
-		String passsha512_input = shaPasswordEncoder.encodePassword(password, salt);
+		String rawPassword = reqParams.get("password");
+		String passswordsha256 = new String(sha256(rawPassword));
 		
 		String crypto_asif_from_db = reqParams.get("cryptos");
 		
 		
-		
-		Boolean match = bCryptPasswordEncoder.matches(passsha512_input, passsha512_input);					
+		Boolean match = bCryptPasswordEncoder.matches(passswordsha256, crypto_asif_from_db);					
 		System.out.println("match=" + match);
 		return match.toString();
 	}
