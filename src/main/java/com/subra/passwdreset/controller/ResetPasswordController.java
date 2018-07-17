@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.subra.passwdreset.CustomerService;
 import com.subra.passwdreset.model.Customer;
-import static org.apache.commons.codec.digest.DigestUtils.sha256;
-//import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 
 @Controller
@@ -48,8 +46,8 @@ public class ResetPasswordController {
 	String cryptoPasswordhashbcrypt(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
 		String password = reqParams.get("password");
 
-		String passwordsha256 = new String(sha256(password));
-							
+		//String passwordsha256 = new String(sha256(password));
+		String passwordsha256 = new String(sha256Hex(password));							
 		String passcrypt = bCryptPasswordEncoder.encode(passwordsha256);
 		System.out.println("password=" + password + ": passwordsha256=" + passwordsha256 + " :passcrypt=" + passcrypt);
 		return passcrypt;
@@ -59,7 +57,8 @@ public class ResetPasswordController {
 	@ResponseBody
 	String doesPasswordmatch(ModelAndView modelview, @RequestParam Map<String, String> reqParams){
 		String rawPassword = reqParams.get("password");
-		String passswordsha256 = new String(sha256(rawPassword));
+		//String passswordsha256 = new String(sha256(rawPassword));
+		String passswordsha256 = new String(sha256Hex(rawPassword));
 		
 		String crypto_asif_from_db = reqParams.get("cryptos");
 		
